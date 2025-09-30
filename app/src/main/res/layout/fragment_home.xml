@@ -1,0 +1,102 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvGreeting"
+            style="@style/TextAppearance.Material3.DisplaySmall"
+            android:text="@string/home_title"
+            android:textColor="@color/onSurface"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/primaryContainer">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/tvDeviceId"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/onPrimaryContainer"/>
+
+                <TextView
+                    android:id="@+id/tvLastSynced"
+                    style="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="@color/onPrimaryContainer"
+                    android:layout_marginTop="8dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRefresh"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/home_refresh"/>
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="0dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnManageDevices"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:text="@string/home_manage_device"/>
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogout"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/home_logout"
+                    android:textColor="@color/onPrimaryContainer"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvPackHeader"
+            style="@style/TextAppearance.Material3.TitleLarge"
+            android:layout_marginTop="32dp"
+            android:text="@string/home_pack_section"
+            android:textColor="@color/onSurface"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPacks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:text="@string/home_empty_pack"
+            android:textColor="@color/onSurface"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

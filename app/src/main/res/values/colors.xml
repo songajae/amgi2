@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#4F46E5</color>
+    <color name="onPrimary">#FFFFFFFF</color>
+    <color name="primaryContainer">#DDE3FF</color>
+    <color name="onPrimaryContainer">#10184A</color>
+    <color name="secondary">#22D3EE</color>
+    <color name="onSecondary">#041C2C</color>
+    <color name="surface">#F4F6FF</color>
+    <color name="onSurface">#1F2937</color>
+    <color name="surfaceVariant">#E5E7F8</color>
+    <color name="surfaceGradientStart">#3730A3</color>
+    <color name="surfaceGradientEnd">#0F172A</color>
+    <color name="onPrimaryVariant">#E0E7FF</color>
+</resources>
