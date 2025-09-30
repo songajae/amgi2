@@ -1,0 +1,29 @@
+# Android Studio / IntelliJ IDE Settings
+.idea/
+*.iml
+.gradle/
+
+# Local machine configuration and sensitive files
+local.properties
+google-services.json
+
+# Build output
+/build/
+
+# Gradle Wrapper files (optional)
+gradle/wrapper/gradle-wrapper.jar
+
+# Captured logs and reports
+*.log
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Android Studio Captured files
+captures/
+
+# Others (optional but recommended)
+*.keystore

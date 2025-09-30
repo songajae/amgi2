@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">암기송</string>
+    <string name="login_title">다시 만났네요!</string>
+    <string name="login_subtitle">학습을 이어가려면 계정으로 로그인해 주세요.</string>
+    <string name="login_action">로그인</string>
+    <string name="login_to_signup">아직 계정이 없으신가요? 지금 가입하기</string>
+    <string name="signup_title">처음 오셨군요!</string>
+    <string name="signup_subtitle">이름과 이메일을 입력하면 바로 시작할 수 있어요.</string>
+    <string name="signup_action">가입하고 시작하기</string>
+    <string name="signup_success">가입이 완료되었어요! 로그인해 주세요.</string>
+    <string name="hint_name">이름</string>
+    <string name="hint_email">이메일</string>
+    <string name="hint_password">비밀번호</string>
+    <string name="error_required">필수 입력 항목입니다.</string>
+    <string name="splash_title">암기송</string>
+    <string name="splash_caption">AI 기반 학습 동기화 중…</string>
+    <string name="splash_ready_message">총 %1$d개의 학습팩을 준비했어요.</string>
+    <string name="splash_device_limit">등록 가능한 기기 수를 초과했습니다. 사용하지 않는 기기를 정리해주세요.</string>
+    <string name="home_title">오늘의 학습</string>
+    <string name="home_pack_section">보유 중인 학습팩</string>
+    <string name="home_device_info">기기 ID: %1$s</string>
+    <string name="home_manage_device">기기 관리</string>
+    <string name="home_logout">로그아웃</string>
+    <string name="home_refresh">동기화</string>
+    <string name="home_empty_pack">아직 등록된 학습팩이 없습니다.</string>
+    <string name="home_sync_failed">콘텐츠를 새로고침하지 못했습니다.</string>
+    <string name="home_last_synced">마지막 동기화: %1$s</string>
+    <string name="dialog_close">닫기</string>
+    <string name="device_manage_title">등록 기기 관리</string>
+    <string name="pack_chapter_count">총 %1$d개 챕터</string>
+</resources>
