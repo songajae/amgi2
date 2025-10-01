@@ -13,15 +13,19 @@
         <TextView
             android:id="@+id/tvTitle"
             style="@style/TextAppearance.Material3.DisplaySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/login_title"
             android:textColor="@color/onSurface"/>
 
-            <TextView
-                android:id="@+id/tvSubtitle"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_marginTop="8dp"
-                android:text="@string/login_subtitle"
-                android:textColor="@color/onSurface"/>
+        <TextView
+            android:id="@+id/tvSubtitle"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/login_subtitle"
+            android:textColor="@color/onSurface"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmail"
@@ -73,6 +77,8 @@
         <TextView
             android:id="@+id/tvGoSignup"
             style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/login_to_signup"
             android:textColor="@color/primary"/>
