@@ -1,10 +1,11 @@
 package com.songajae.amgi.data.packs
 
 import android.content.Context
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.songajae.amgi.R
+import com.songajae.amgi.util.AppStringProvider
 import com.songajae.amgi.core.io.EncryptedIO
 import com.songajae.amgi.data.remote.AuthService
+import com.songajae.amgi.data.remote.FirebaseServiceProvider
 import com.songajae.amgi.util.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -21,23 +22,27 @@ data class ContentPack(
 
 object PackRepository {
     private const val CACHE_FILE = "packs_cache.json"
-    private val db get() = Firebase.firestore
 
     suspend fun fetchRemotePacks(): Result<List<ContentPack>> = withContext(Dispatchers.IO) {
-        val uid = AuthService.uid() ?: return@withContext Result.Error("로그인이 필요합니다.")
+        val uid = AuthService.uid()
+            ?: return@withContext Result.Error(AppStringProvider.get(R.string.error_login_required_long))
+        val db = FirebaseServiceProvider.firestoreOrNull()
+            ?: return@withContext Result.Error(AppStringProvider.get(R.string.error_firebase_service_unavailable))
         return@withContext runCatching {
             val snap = db.collection("users").document(uid).collection("packs").get().await()
             val packs = snap.documents.map { doc ->
                 ContentPack(
                     id = doc.id,
-                    title = doc.getString("title") ?: "제목 미정",
+                    title = doc.getString("title") ?: AppStringProvider.get(R.string.pack_title_unknown),
                     description = doc.getString("description") ?: "",
                     chapterCount = (doc.getLong("chapterCount") ?: 0L).toInt()
                 )
             }
             Result.Success(packs)
         }.getOrElse { throwable ->
-            Result.Error(throwable.message ?: "콘텐츠를 불러오지 못했습니다.")
+            Result.Error(
+                throwable.message ?: AppStringProvider.get(R.string.error_content_fetch_failed)
+            )
         }
     }
 

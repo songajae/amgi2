@@ -1,0 +1,7 @@
+<resources>
+    <!-- ui/splash 화면 텍스트 -->
+    <string name="splash_title">암기송</string>
+    <string name="splash_caption">AI 기반 학습 동기화 중…</string>
+    <string name="splash_ready_message">총 %1$d개의 학습팩을 준비했어요.</string>
+    <string name="splash_device_limit">등록 가능한 기기 수를 초과했습니다. 사용하지 않는 기기를 정리해주세요.</string>
+</resources>

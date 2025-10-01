@@ -2,13 +2,14 @@ package com.songajae.amgi.ui.auth
 
 import android.os.Bundle
 import android.view.*
+import android.util.Patterns
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.lifecycle.Lifecycle
-import androidx.core.view.isVisible
 import com.songajae.amgi.R
 import com.songajae.amgi.databinding.FragmentLoginBinding
 import com.songajae.amgi.util.Result
@@ -56,6 +57,9 @@ class LoginFragment : Fragment() {
         var valid = true
         if (email.isBlank()) {
             vb.tilEmail.error = getString(R.string.error_required)
+            valid = false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            vb.tilEmail.error = getString(R.string.error_invalid_email)
             valid = false
         } else {
             vb.tilEmail.error = null

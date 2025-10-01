@@ -2,6 +2,7 @@ package com.songajae.amgi.ui.auth
 
 import android.os.Bundle
 import android.view.*
+import android.util.Patterns
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -61,6 +62,9 @@ class SignupFragment : Fragment() {
         }
         if (email.isBlank()) {
             vb.tilEmail.error = getString(R.string.error_required)
+            valid = false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            vb.tilEmail.error = getString(R.string.error_invalid_email)
             valid = false
         } else {
             vb.tilEmail.error = null

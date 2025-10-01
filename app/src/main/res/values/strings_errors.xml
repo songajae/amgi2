@@ -1,0 +1,14 @@
+<resources>
+    <!-- data 및 core 계층 에러 메시지 -->
+    <string name="error_firebase_auth_unavailable">Firebase 인증을 사용할 수 없습니다.</string>
+    <string name="error_login_failure">로그인 실패</string>
+    <string name="error_signup_failure">가입 실패</string>
+    <string name="error_login_required_short">로그인 필요</string>
+    <string name="error_login_required_long">로그인이 필요합니다.</string>
+    <string name="error_firebase_service_unavailable">Firebase 서비스를 사용할 수 없습니다.</string>
+    <string name="error_profile_creation_failure">프로필 생성 실패</string>
+    <string name="error_device_policy_check_failed">기기 정책 확인 중 문제가 발생했습니다.</string>
+    <string name="error_content_fetch_failed">콘텐츠를 불러오지 못했습니다.</string>
+    <string name="error_sync_status_unknown">콘텐츠 동기화 상태를 확인할 수 없습니다.</string>
+    <string name="error_invalid_email">이메일 형식이 올바르지 않습니다.</string>
+</resources>

@@ -1,23 +1,31 @@
 package com.songajae.amgi.data.remote
 
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.songajae.amgi.util.Result
+import com.songajae.amgi.R
+import com.songajae.amgi.util.AppStringProvider
 import kotlinx.coroutines.tasks.await
 
 object AuthService {
-    fun isLoggedIn() = Firebase.auth.currentUser != null
-    fun uid(): String? = Firebase.auth.currentUser?.uid
+    fun isLoggedIn() = FirebaseServiceProvider.authOrNull()?.currentUser != null
+    fun uid(): String? = FirebaseServiceProvider.authOrNull()?.currentUser?.uid
 
     suspend fun login(email: String, pw: String): Result<Unit> = try {
-        Firebase.auth.signInWithEmailAndPassword(email, pw).await()
+        val auth = FirebaseServiceProvider.authOrNull()
+            ?: return Result.Error(AppStringProvider.get(R.string.error_firebase_auth_unavailable))
+        auth.signInWithEmailAndPassword(email, pw).await()
         Result.Success(Unit)
-    } catch (e: Exception) { Result.Error(e.message ?: "로그인 실패") }
+    } catch (e: Exception) {
+        Result.Error(e.message ?: AppStringProvider.get(R.string.error_login_failure))
+    }
 
     suspend fun signup(email: String, pw: String): Result<Unit> = try {
-        Firebase.auth.createUserWithEmailAndPassword(email, pw).await()
+        val auth = FirebaseServiceProvider.authOrNull()
+            ?: return Result.Error(AppStringProvider.get(R.string.error_firebase_auth_unavailable))
+        auth.createUserWithEmailAndPassword(email, pw).await()
         Result.Success(Unit)
-    } catch (e: Exception) { Result.Error(e.message ?: "가입 실패") }
+    } catch (e: Exception) {
+        Result.Error(e.message ?: AppStringProvider.get(R.string.error_signup_failure))
+    }
 
-    fun logout() = Firebase.auth.signOut()
+    fun logout() = FirebaseServiceProvider.authOrNull()?.signOut()
 }
