@@ -2,10 +2,9 @@ package com.songajae.amgi.data.remote
 
 import android.content.Context
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.songajae.amgi.data.local.LeaseCache
+import com.songajae.amgi.R
+import com.songajae.amgi.util.AppStringProvider
 import kotlinx.coroutines.tasks.await
 
 sealed class DevicePolicyResult {
@@ -18,16 +17,10 @@ sealed class DevicePolicyResult {
 object AdminApi {
 
     private const val MAX_DEVICE_COUNT = 5
-    private fun firestoreOrNull(): FirebaseFirestore? = try {
-        Firebase.firestore
-    } catch (_: IllegalStateException) {
-        null
-    }
-
 
     suspend fun listDevicesPretty(): List<String> {
         val uid = AuthService.uid() ?: return emptyList()
-        val db = firestoreOrNull() ?: return emptyList()
+        val db = FirebaseServiceProvider.firestoreOrNull() ?: return emptyList()
         val snap = db.collection("users").document(uid)
             .collection("device_registry").get().await()
         return snap.documents.map { it.id }
@@ -35,16 +28,17 @@ object AdminApi {
 
     suspend fun deleteDeviceByIndex(index: Int) {
         val uid = AuthService.uid() ?: return
-        val db = firestoreOrNull() ?: return
+        val db = FirebaseServiceProvider.firestoreOrNull() ?: return
         val docs = db.collection("users").document(uid)
             .collection("device_registry").get().await().documents
         docs.getOrNull(index)?.reference?.delete()?.await()
     }
 
     suspend fun processDevicePolicyAndPing(ctx: Context, deviceId: String): DevicePolicyResult {
-        val uid = AuthService.uid() ?: return DevicePolicyResult.Error("로그인이 필요합니다.")
-        val db = firestoreOrNull()
-            ?: return DevicePolicyResult.Error("Firebase 서비스를 사용할 수 없습니다.")
+        val uid = AuthService.uid()
+            ?: return DevicePolicyResult.Error(AppStringProvider.get(R.string.error_login_required_long))
+        val db = FirebaseServiceProvider.firestoreOrNull()
+            ?: return DevicePolicyResult.Error(AppStringProvider.get(R.string.error_firebase_service_unavailable))
         val regCol = db.collection("users").document(uid).collection("device_registry")
         return try {
             val docs = regCol.get().await().documents
@@ -69,7 +63,10 @@ object AdminApi {
             LeaseCache.save(ctx, deviceId, System.currentTimeMillis())
             DevicePolicyResult.Approved
         } catch (t: Throwable) {
-            DevicePolicyResult.Error(t.message ?: "기기 정책 확인 중 문제가 발생했습니다.", t)
+            DevicePolicyResult.Error(
+                t.message ?: AppStringProvider.get(R.string.error_device_policy_check_failed),
+                t
+            )
         }
     }
 }

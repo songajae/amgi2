@@ -29,7 +29,9 @@ class PackAdapter : ListAdapter<ContentPack, PackAdapter.PackViewHolder>(DIFF) {
 
         fun bind(item: ContentPack) {
             title.text = item.title
-            description.text = item.description.ifBlank { "설명이 제공되지 않았어요." }
+            description.text = item.description.ifBlank {
+                itemView.context.getString(R.string.pack_description_empty)
+            }
             chapters.text = itemView.context.getString(R.string.pack_chapter_count, item.chapterCount)
         }
     }

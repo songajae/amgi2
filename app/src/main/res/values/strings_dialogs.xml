@@ -1,0 +1,6 @@
+<resources>
+    <!-- ui/device 다이얼로그 텍스트 -->
+    <string name="dialog_close">닫기</string>
+    <string name="device_manage_title">등록 기기 관리</string>
+    <string name="device_manage_description">등록된 기기 중 하나를 선택하여 삭제하세요.</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+    <!-- Application 공통 -->
+    <string name="app_name">암기송</string>
+</resources>
