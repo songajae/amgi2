@@ -43,7 +43,7 @@
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" /
+            app:popUpToInclusive="true" />
     </fragment>
 
     <dialog
