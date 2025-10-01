@@ -1,8 +1,6 @@
 package com.songajae.amgi.data.packs
 
 import android.content.Context
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.songajae.amgi.core.io.EncryptedIO
 import com.songajae.amgi.data.remote.AuthService
