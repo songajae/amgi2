@@ -57,6 +57,7 @@
                         android:id="@+id/btnRefresh"
                         style="@style/Widget.Material3.Button.ElevatedButton"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/home_refresh"/>
 
@@ -68,6 +69,7 @@
                         android:id="@+id/btnManageDevices"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/home_manage_device"/>
                 </LinearLayout>
 
@@ -75,6 +77,7 @@
                     android:id="@+id/btnLogout"
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/home_logout"
                     android:textColor="@color/onPrimaryContainer"/>
@@ -83,6 +86,8 @@
 
         <TextView
             android:id="@+id/tvPackHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.TitleLarge"
             android:layout_marginTop="32dp"
             android:text="@string/home_pack_section"
@@ -98,6 +103,8 @@
         <TextView
             android:id="@+id/tvEmpty"
             style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/home_empty_pack"
             android:textColor="@color/onSurface"
             android:gravity="center"
