@@ -1,6 +1,7 @@
 package com.songajae.amgi.data.packs
 
 import android.content.Context
+import com.google.firebase.firestore.DocumentSnapshot
 import com.songajae.amgi.R
 import com.songajae.amgi.util.AppStringProvider
 import com.songajae.amgi.core.io.EncryptedIO
@@ -30,13 +31,15 @@ object PackRepository {
             ?: return@withContext Result.Error(AppStringProvider.get(R.string.error_firebase_service_unavailable))
         return@withContext try {
             val userDoc = db.collection("users").document(uid)
-            val languagePacks = userDoc.collection("language_packs").get().await()
-            val documents = buildList {
-                addAll(languagePacks.documents)
-                if (languagePacks.isEmpty) {
-                    val legacyPacks = userDoc.collection("packs").get().await()
-                    addAll(legacyPacks.documents)
+            val packCollections = listOf("language_packs", "word_packs", "packs")
+            val documents = mutableListOf<DocumentSnapshot>()
+            for (collection in packCollections) {
+                val snapshot = userDoc.collection(collection).get().await()
+                if (snapshot.isEmpty) {
+                    continue
                 }
+                documents.addAll(snapshot.documents)
+                break
             }
             val packs = documents.map { doc ->
                 ContentPack(
