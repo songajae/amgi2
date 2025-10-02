@@ -60,7 +60,14 @@ class HomeFragment : Fragment() {
 
     private suspend fun loadCachedPacks() {
         val ctx = requireContext()
-        val packs = PackRepository.loadCachedPacks(ctx)
+        val uid = AuthService.uid()
+        if (uid == null) {
+            adapter.submitList(emptyList())
+            vb.tvEmpty.isVisible = true
+            return
+        }
+        val deviceId = DeviceIdStore.getOrCreate(ctx)
+        val packs = PackRepository.loadCachedPacks(ctx, uid, deviceId)
         adapter.submitList(packs)
         vb.tvEmpty.isVisible = packs.isEmpty()
     }

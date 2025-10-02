@@ -6,6 +6,7 @@ import com.songajae.amgi.data.packs.ContentPack
 import com.songajae.amgi.data.packs.PackRepository
 import com.songajae.amgi.data.remote.AdminApi
 import com.songajae.amgi.data.remote.DevicePolicyResult
+import com.songajae.amgi.data.remote.AuthService
 import com.songajae.amgi.util.AppStringProvider
 import com.songajae.amgi.util.Result
 
@@ -17,15 +18,19 @@ object SyncManager {
     }
 
     suspend fun sync(ctx: Context, deviceId: String): SyncResult {
+        val uid = AuthService.uid()
+            ?: return SyncResult.Failure(
+                AppStringProvider.get(R.string.error_login_required_long)
+            )
         return when (val policy = AdminApi.processDevicePolicyAndPing(ctx, deviceId)) {
             DevicePolicyResult.Approved -> when (val remote = PackRepository.fetchRemotePacks()) {
                 is Result.Success -> {
-                    PackRepository.cachePacks(ctx, remote.data)
+                    PackRepository.cachePacks(ctx, uid, deviceId, remote.data)
                     SyncResult.Success(remote.data)
                 }
 
                 is Result.Error -> {
-                    val cached = PackRepository.loadCachedPacks(ctx)
+                    val cached = PackRepository.loadCachedPacks(ctx, uid, deviceId)
                     if (cached.isNotEmpty()) {
                         SyncResult.Success(cached)
                     } else {

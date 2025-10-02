@@ -39,8 +39,9 @@ class SplashViewModel(
             val online = networkGate.isOnline(ctx)
 
             if (!online) {
-                if (leaseManager.isLeaseValidOffline(ctx, deviceId)) {
-                    val cached = PackRepository.loadCachedPacks(ctx)
+                val uid = AuthService.uid()
+                if (uid != null && leaseManager.isLeaseValidOffline(ctx, deviceId)) {
+                    val cached = PackRepository.loadCachedPacks(ctx, uid, deviceId)
                     _state.value = SplashState.NavigateHome(cached)
                 } else {
                     _state.value = SplashState.NavigateLogin

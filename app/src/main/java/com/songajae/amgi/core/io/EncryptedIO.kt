@@ -21,6 +21,14 @@ object EncryptedIO {
         ).build()
     }
 
+    fun delete(ctx: Context, fileName: String) {
+        runCatching {
+            val target = file(ctx, fileName)
+            if (target.exists()) {
+                target.delete()
+            }
+        }
+    }
     fun writeString(ctx: Context, fileName: String, content: String) {
         runCatching {
             val target = file(ctx, fileName)

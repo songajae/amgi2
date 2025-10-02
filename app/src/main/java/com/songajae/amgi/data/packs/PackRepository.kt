@@ -2,6 +2,7 @@ package com.songajae.amgi.data.packs
 
 import android.content.Context
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldPath
 import com.songajae.amgi.R
 import com.songajae.amgi.util.AppStringProvider
 import com.songajae.amgi.core.io.EncryptedIO
@@ -22,7 +23,12 @@ data class ContentPack(
 )
 
 object PackRepository {
-    private const val CACHE_FILE = "packs_cache.json"
+    private val cacheKeySanitizer = Regex("[^A-Za-z0-9_.-]")
+
+    private fun cacheFile(uid: String, deviceId: String): String {
+        fun sanitize(value: String) = value.replace(cacheKeySanitizer, "_")
+        return "packs_cache_${sanitize(uid)}_${sanitize(deviceId)}.json"
+    }
 
     suspend fun fetchRemotePacks(): Result<List<ContentPack>> = withContext(Dispatchers.IO) {
         val uid = AuthService.uid()
@@ -57,7 +63,16 @@ object PackRepository {
         }
     }
 
-    suspend fun cachePacks(ctx: Context, packs: List<ContentPack>) = withContext(Dispatchers.IO) {
+    suspend fun cachePacks(
+        ctx: Context,
+        uid: String,
+        deviceId: String,
+        packs: List<ContentPack>
+    ) = withContext(Dispatchers.IO) {
+        if (packs.isEmpty()) {
+            EncryptedIO.delete(ctx, cacheFile(uid, deviceId))
+            return@withContext
+        }
         val json = JSONArray().apply {
             packs.forEach { pack ->
                 put(
@@ -70,11 +85,16 @@ object PackRepository {
                 )
             }
         }
-        EncryptedIO.writeString(ctx, CACHE_FILE, json.toString())
+        EncryptedIO.writeString(ctx, cacheFile(uid, deviceId), json.toString())
     }
 
-    suspend fun loadCachedPacks(ctx: Context): List<ContentPack> = withContext(Dispatchers.IO) {
-        val raw = EncryptedIO.readString(ctx, CACHE_FILE) ?: return@withContext emptyList()
+    suspend fun loadCachedPacks(
+        ctx: Context,
+        uid: String,
+        deviceId: String
+    ): List<ContentPack> = withContext(Dispatchers.IO) {
+        val raw = EncryptedIO.readString(ctx, cacheFile(uid, deviceId))
+            ?: return@withContext emptyList()
         return@withContext runCatching {
             val arr = JSONArray(raw)
             buildList {

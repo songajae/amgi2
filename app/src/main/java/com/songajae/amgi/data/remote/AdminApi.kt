@@ -42,8 +42,8 @@ object AdminApi {
         val regCol = db.collection("users").document(uid).collection("device_registry")
         return try {
             val docs = regCol.get().await().documents
-            val exists = docs.any { it.id == deviceId }
-            if (!exists) {
+            val existingDoc = docs.firstOrNull { it.id == deviceId }
+            if (existingDoc == null) {
                 if (docs.size >= MAX_DEVICE_COUNT) {
                     return DevicePolicyResult.LimitReached
                 }
@@ -57,7 +57,13 @@ object AdminApi {
                 ).await()
             } else {
                 regCol.document(deviceId)
-                    .update("lastSeenAt", FieldValue.serverTimestamp())
+                    .update(
+                    mapOf(
+                        "model" to android.os.Build.MODEL,
+                        "os" to "Android",
+                        "lastSeenAt" to FieldValue.serverTimestamp()
+                    )
+                )
                     .await()
             }
             LeaseCache.save(ctx, deviceId, System.currentTimeMillis())
