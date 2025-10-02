@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_login_to_signup"
             app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_login_to_deviceManageDialogFragment"
+            app:destination="@id/deviceManageDialogFragment" />
     </fragment>
 
     <fragment
