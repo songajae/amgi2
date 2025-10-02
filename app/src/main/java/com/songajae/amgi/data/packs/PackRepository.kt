@@ -28,16 +28,23 @@ object PackRepository {
             ?: return@withContext Result.Error(AppStringProvider.get(R.string.error_login_required_long))
         val db = FirebaseServiceProvider.firestoreOrNull()
             ?: return@withContext Result.Error(AppStringProvider.get(R.string.error_firebase_service_unavailable))
-        return@withContext runCatching {
-            val snap = db.collection("users").document(uid).collection("packs").get().await()
-            val packs = snap.documents.map { doc ->
+        return@withContext try {
+            val userDoc = db.collection("users").document(uid)
+            val packs = sequence {
+                val languagePacks = userDoc.collection("language_packs").get().await()
+                yieldAll(languagePacks.documents)
+                if (languagePacks.isEmpty) {
+                    val legacyPacks = userDoc.collection("packs").get().await()
+                    yieldAll(legacyPacks.documents)
+                }
+            }.map { doc ->
                 ContentPack(
                     id = doc.id,
                     title = doc.getString("title") ?: AppStringProvider.get(R.string.pack_title_unknown),
                     description = doc.getString("description") ?: "",
                     chapterCount = (doc.getLong("chapterCount") ?: 0L).toInt()
                 )
-            }
+            }.toList()
             Result.Success(packs)
         }.getOrElse { throwable ->
             Result.Error(
