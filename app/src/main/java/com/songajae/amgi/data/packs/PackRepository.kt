@@ -30,14 +30,15 @@ object PackRepository {
             ?: return@withContext Result.Error(AppStringProvider.get(R.string.error_firebase_service_unavailable))
         return@withContext try {
             val userDoc = db.collection("users").document(uid)
-            val packs = sequence {
-                val languagePacks = userDoc.collection("language_packs").get().await()
-                yieldAll(languagePacks.documents)
+            val languagePacks = userDoc.collection("language_packs").get().await()
+            val documents = buildList {
+                addAll(languagePacks.documents)
                 if (languagePacks.isEmpty) {
                     val legacyPacks = userDoc.collection("packs").get().await()
-                    yieldAll(legacyPacks.documents)
+                    addAll(legacyPacks.documents)
                 }
-            }.map { doc ->
+            }
+            val packs = documents.map { doc ->
                 ContentPack(
                     id = doc.id,
                     title = doc.getString("title") ?: AppStringProvider.get(R.string.pack_title_unknown),
@@ -46,7 +47,7 @@ object PackRepository {
                 )
             }.toList()
             Result.Success(packs)
-        }.getOrElse { throwable ->
+        } catch (throwable: Throwable) {
             Result.Error(
                 throwable.message ?: AppStringProvider.get(R.string.error_content_fetch_failed)
             )
