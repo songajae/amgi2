@@ -13,6 +13,8 @@
         <TextView
             android:id="@+id/tvGreeting"
             style="@style/TextAppearance.Material3.DisplaySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/home_title"
             android:textColor="@color/onSurface"/>
 
@@ -32,11 +34,15 @@
                 <TextView
                     android:id="@+id/tvDeviceId"
                     style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/onPrimaryContainer"/>
 
                 <TextView
                     android:id="@+id/tvLastSynced"
                     style="@style/TextAppearance.Material3.BodySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/onPrimaryContainer"
                     android:layout_marginTop="8dp"/>
 
